@@ -9,6 +9,8 @@ import SwiftUI
 import AVFoundation
 
 class Dice: ObservableObject {
+    @Published var dieOne: Int = 0
+    @Published var dieTwo: Int = 0
     @Published var value = 1
     var audioPlayer: AVAudioPlayer?
     let imageDice = [UIImage(named: "Dice One")!,
@@ -31,16 +33,18 @@ class Dice: ObservableObject {
         }
     }
     
-    func roll() {
-        value = Int.random(in: 1...6)
+
+    func rollDice() {
+        dieOne = Int.random(in: 1...6)
+        dieTwo = Int.random(in: 1...6)
+        value = dieOne + dieTwo
         audioPlayer?.play()
     }
 }
 
 struct HighLow: View {
-    @StateObject var dice1 = Dice()
-    @StateObject var dice2 = Dice()
     @ObservedObject var chipViewModel = ChipViewModel()
+    @ObservedObject var gameModel = Dice()
     @State private var showDice = false
     
     var deck = createDeck()
@@ -56,14 +60,13 @@ struct HighLow: View {
                             .padding(.top, 20)
             if showDice {
                 HStack {
-                    Image(uiImage: dice1.imageDice[dice1.value - 1])
-                    Image(uiImage: dice2.imageDice[dice2.value - 1])
+                    Image(uiImage: gameModel.imageDice[gameModel.dieOne - 1])
+                    Image(uiImage: gameModel.imageDice[gameModel.dieTwo - 1])
                 }
             }
             
             Button(action: {
-                dice1.roll()
-                dice2.roll()
+                gameModel.rollDice() // Call rollDice method on gameModel object
                 showDice = true
             }, label: {
                 Text("Roll Dice")

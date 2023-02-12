@@ -33,9 +33,10 @@ class DiceRollGameModel: ObservableObject {
         case 4:
             return ["4", "King"]
         case 11:
-            return ["11", "Ace"]
+            return ["Joker", "Ace"]
         case 12:
-            return ["Jocker"]
+            return ["Joker", "Ace"]
+
         default:
             if let rank = cardRanks.first(where: { $0.prefix(1) == String(dieOne + dieTwo) }) {
                 return [rank]
@@ -51,32 +52,40 @@ struct DiceRollGameView: View {
     var body: some View {
         VStack {
             HStack {
-                
-                if gameModel.cardRanks.count == 1 {
-                    // One card rolled, display it in the empty card spot
-                    PlayingCardView(rank: gameModel.cardRanks[0], suit: gameModel.cardSuits[(gameModel.dieOne + gameModel.dieTwo) % 4])
-                        .frame(width: 77, height: 118)
-                        .padding()
-                } else {
-                    // Two cards rolled, allow user to select a card to display
+                // Empty card or selected card
+                if let cardRanks = gameModel.getCardRanks() {
+                    if cardRanks.count == 1 {
+                        // Show the single card rolled
+                        PlayingCardView(rank: cardRanks[0], suit: gameModel.cardSuits[(gameModel.dieOne + gameModel.dieTwo) % 4])
+                            .frame(width: 77, height: 118)
+                            .padding()
+                    } else {
+                        if let selectedRank = gameModel.selectedRank {
+                            PlayingCardView(rank: selectedRank, suit: gameModel.cardSuits[(gameModel.dieOne + gameModel.dieTwo) % 4])
+                                .frame(width: 77, height: 118)
+                                .padding()
+                        } else {
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 10)
+                                    .fill(Color.white)
+                                    .shadow(radius: 5)
+                            }
+                            .frame(width: 77, height: 118)
+                            .padding()
+                        }
+
+                    }
+                }else {
                     ZStack {
                         RoundedRectangle(cornerRadius: 10)
                             .fill(Color.white)
                             .shadow(radius: 5)
-                        if gameModel.isCardSelected {
-                            if let selectedRank = gameModel.selectedRank {
-                                PlayingCardView(rank: selectedRank, suit: gameModel.cardSuits[(gameModel.dieOne + gameModel.dieTwo) % 4])
-                                    .onTapGesture {
-                                        self.gameModel.isCardSelected = false
-                                        self.gameModel.selectedRank = nil
-                                    }
-                            }
-                        }
                     }
                     .frame(width: 77, height: 118)
                     .padding()
                 }
-     
+
+               
                 // My Coloda
                 ZStack {
                     RoundedRectangle(cornerRadius: 10)
@@ -85,29 +94,36 @@ struct DiceRollGameView: View {
                 }
                 .frame(width: 77, height: 118)
             }
-            
             HStack {
                 DieView(value: gameModel.dieOne)
                 DieView(value: gameModel.dieTwo)
             }
             Text("You rolled:")
             if let cardRanks = gameModel.getCardRanks() {
-                  HStack {
-                      ForEach(cardRanks, id: \.self) { rank in
-                          PlayingCardView(rank: rank, suit: gameModel.cardSuits[(gameModel.dieOne + gameModel.dieTwo) % 4])
-                              .onTapGesture {
-                                  if self.gameModel.isCardSelected {
-                                      self.gameModel.selectedRank = rank
-                                  } else {
-                                      self.gameModel.isCardSelected = true
-                                      self.gameModel.selectedRank = rank
-                                  }
-                              }
-                      }
-                  }
-              } else {
-                  Text("You rolled \(gameModel.dieOne + gameModel.dieTwo)")
-              }
+                if cardRanks.count == 1 {
+//                    // Show the single card rolled
+//                    PlayingCardView(rank: cardRanks[0], suit: gameModel.cardSuits[(gameModel.dieOne + gameModel.dieTwo) % 4])
+//                        .frame(width: 77, height: 118)
+//                        .padding()
+                } else {
+                    // Multiple cards rolled, display them and allow the user to choose one
+                    HStack {
+                        ForEach(cardRanks, id: \.self) { rank in
+                            PlayingCardView(rank: rank, suit: gameModel.cardSuits[(gameModel.dieOne + gameModel.dieTwo) % 4])
+                                .onTapGesture {
+                                    if self.gameModel.isCardSelected {
+                                        self.gameModel.selectedRank = rank
+                                    } else {
+                                        self.gameModel.isCardSelected = true
+                                        self.gameModel.selectedRank = rank
+                                    }
+                                }
+                        }
+                    }
+                }
+            } else {
+                Text("You rolled \(gameModel.dieOne + gameModel.dieTwo)")
+            }
                
             Button(action: {
                 self.gameModel.dieOne = Int.random(in: 1...6)
@@ -117,6 +133,7 @@ struct DiceRollGameView: View {
             }
         }
     }
+
     
 }
 

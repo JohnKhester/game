@@ -8,14 +8,35 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var showNextScreen = false
+
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        NavigationView {
+            VStack {
+                Text("Welcome to Brazen Game!")
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .padding()
+
+                Button(action: {
+                    showNextScreen = true
+                }, label: {
+                    Text("High Low")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .padding()
+                        .background(Color.blue)
+                        .cornerRadius(10)
+                })
+                .padding()
+
+                Spacer()
+            }
+           // .navigationTitle("Main Screen")
+            .fullScreenCover(isPresented: $showNextScreen, content: {
+                HighLow()
+            })
         }
-        .padding()
     }
 }
 

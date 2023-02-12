@@ -1,0 +1,186 @@
+//
+//  DiceRollGameView.swift
+//  BrazenGames
+//
+//  Created by Andrey on 12.02.2023.
+//
+
+
+import SwiftUI
+
+class DiceRollGameModel: ObservableObject {
+    @Published var dieOne: Int = 0
+    @Published var dieTwo: Int = 0
+    @Published var isCardSelected: Bool = false
+    @Published var selectedRank: String? = nil
+    
+    private var numCardsDrawn = 0
+    
+    let cardSuits = ["♠️", "♣️", "♥️", "♦️"]
+    let cardRanks = ["Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Joker"]
+    
+    func rollDice() {
+        dieOne = Int.random(in: 1...6)
+        dieTwo = Int.random(in: 1...6)
+    }
+    
+    func getCardRanks() -> [String]? {
+        switch (dieOne + dieTwo) {
+        case 2:
+            return ["2", "Jack"]
+        case 3:
+            return ["3", "Queen"]
+        case 4:
+            return ["4", "King"]
+        case 11:
+            return ["11", "Ace"]
+        case 12:
+            return ["Jocker"]
+        default:
+            if let rank = cardRanks.first(where: { $0.prefix(1) == String(dieOne + dieTwo) }) {
+                return [rank]
+            } else {
+                return nil
+            }
+        }
+    }
+}
+
+struct DiceRollGameView: View {
+    @ObservedObject var gameModel = DiceRollGameModel()
+    var body: some View {
+        VStack {
+            HStack {
+                
+                if gameModel.cardRanks.count == 1 {
+                    // One card rolled, display it in the empty card spot
+                    PlayingCardView(rank: gameModel.cardRanks[0], suit: gameModel.cardSuits[(gameModel.dieOne + gameModel.dieTwo) % 4])
+                        .frame(width: 77, height: 118)
+                        .padding()
+                } else {
+                    // Two cards rolled, allow user to select a card to display
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(Color.white)
+                            .shadow(radius: 5)
+                        if gameModel.isCardSelected {
+                            if let selectedRank = gameModel.selectedRank {
+                                PlayingCardView(rank: selectedRank, suit: gameModel.cardSuits[(gameModel.dieOne + gameModel.dieTwo) % 4])
+                                    .onTapGesture {
+                                        self.gameModel.isCardSelected = false
+                                        self.gameModel.selectedRank = nil
+                                    }
+                            }
+                        }
+                    }
+                    .frame(width: 77, height: 118)
+                    .padding()
+                }
+     
+                // My Coloda
+                ZStack {
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(Color.black)
+                        .shadow(radius: 5)
+                }
+                .frame(width: 77, height: 118)
+            }
+            
+            HStack {
+                DieView(value: gameModel.dieOne)
+                DieView(value: gameModel.dieTwo)
+            }
+            Text("You rolled:")
+            if let cardRanks = gameModel.getCardRanks() {
+                  HStack {
+                      ForEach(cardRanks, id: \.self) { rank in
+                          PlayingCardView(rank: rank, suit: gameModel.cardSuits[(gameModel.dieOne + gameModel.dieTwo) % 4])
+                              .onTapGesture {
+                                  if self.gameModel.isCardSelected {
+                                      self.gameModel.selectedRank = rank
+                                  } else {
+                                      self.gameModel.isCardSelected = true
+                                      self.gameModel.selectedRank = rank
+                                  }
+                              }
+                      }
+                  }
+              } else {
+                  Text("You rolled \(gameModel.dieOne + gameModel.dieTwo)")
+              }
+               
+            Button(action: {
+                self.gameModel.dieOne = Int.random(in: 1...6)
+                self.gameModel.dieTwo = Int.random(in: 1...6)
+            }) {
+                Text("Roll Dice")
+            }
+        }
+    }
+    
+}
+
+struct DieView: View {
+    let value: Int
+    var body: some View {
+        Text(String(value))
+            .font(.system(size: 100))
+            .padding()
+    }
+}
+
+struct PlayingCardView: View {
+    let rank: String
+    let suit: String
+    var body: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 10)
+                .fill(Color.white)
+                .shadow(radius: 5)
+            
+            VStack {
+                Text(rank)
+                    .font(.largeTitle)
+                    .foregroundColor(suitColor())
+                                    
+                Image(systemName: suitSymbol())
+                    .font(.largeTitle)
+                    .foregroundColor(suitColor())
+            }
+        }
+        .aspectRatio(2/3, contentMode: .fit)
+        .frame(width: 77, height: 118)
+    }
+    
+    func suitColor() -> Color {
+        switch suit {
+        case "♠️", "♣️":
+            return Color.black
+        default:
+            return Color.red
+        }
+    }
+    
+    func suitSymbol() -> String {
+        switch suit {
+        case "♠️":
+            return "suit.spade.fill"
+        case "♣️":
+            return "suit.club.fill"
+        case "♥️":
+            return "suit.heart.fill"
+        case "♦️":
+            return "suit.diamond.fill"
+        default:
+            return ""
+        }
+    }
+}
+
+
+
+struct DiceRollGameView_Previews: PreviewProvider {
+    static var previews: some View {
+        DiceRollGameView()
+    }
+}

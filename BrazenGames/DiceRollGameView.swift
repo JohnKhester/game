@@ -13,6 +13,7 @@ class DiceRollGameModel: ObservableObject {
     @Published var dieTwo: Int = 0
     @Published var isCardSelected: Bool = false
     @Published var selectedRank: String? = nil
+    @Published var selectCard: Bool = false
     
     private var numCardsDrawn = 0
     
@@ -21,7 +22,7 @@ class DiceRollGameModel: ObservableObject {
     
     func rollDice() {
         dieOne = Int.random(in: 1...6)
-        dieTwo = Int.random(in: 1...6)
+        dieTwo = Int.random(in: 1...54)
     }
     
     func getCardRanks() -> [String]? {
@@ -32,11 +33,12 @@ class DiceRollGameModel: ObservableObject {
             return ["3", "Queen"]
         case 4:
             return ["4", "King"]
+        case 10:
+            return ["10"]
         case 11:
             return ["Joker", "Ace"]
         case 12:
-            return ["Joker", "Ace"]
-
+            return ["Joker"]
         default:
             if let rank = cardRanks.first(where: { $0.prefix(1) == String(dieOne + dieTwo) }) {
                 return [rank]
@@ -101,23 +103,25 @@ struct DiceRollGameView: View {
             Text("You rolled:")
             if let cardRanks = gameModel.getCardRanks() {
                 if cardRanks.count == 1 {
-//                    // Show the single card rolled
-//                    PlayingCardView(rank: cardRanks[0], suit: gameModel.cardSuits[(gameModel.dieOne + gameModel.dieTwo) % 4])
-//                        .frame(width: 77, height: 118)
-//                        .padding()
                 } else {
                     // Multiple cards rolled, display them and allow the user to choose one
                     HStack {
                         ForEach(cardRanks, id: \.self) { rank in
-                            PlayingCardView(rank: rank, suit: gameModel.cardSuits[(gameModel.dieOne + gameModel.dieTwo) % 4])
-                                .onTapGesture {
-                                    if self.gameModel.isCardSelected {
-                                        self.gameModel.selectedRank = rank
-                                    } else {
-                                        self.gameModel.isCardSelected = true
-                                        self.gameModel.selectedRank = rank
+                             
+                                PlayingCardView(rank: rank, suit: gameModel.cardSuits[(gameModel.dieOne + gameModel.dieTwo) % 4])
+                                
+                                    .onTapGesture {
+                                        if self.gameModel.isCardSelected {
+                                            self.gameModel.selectedRank = rank
+                                            
+                                        } else {
+                                            self.gameModel.isCardSelected = true
+                                            self.gameModel.selectedRank = rank
+                                            
+                                        }
                                     }
-                                }
+                                    .opacity(gameModel.isCardSelected ? 0.6 : 1.0)
+                                    .disabled(gameModel.isCardSelected)
                         }
                     }
                 }
@@ -130,7 +134,8 @@ struct DiceRollGameView: View {
                 self.gameModel.dieTwo = Int.random(in: 1...6)
             }) {
                 Text("Roll Dice")
-            }
+            }.disabled(gameModel.isCardSelected)
+
         }
     }
 

@@ -8,49 +8,84 @@
 
 import SwiftUI
 
+class CardGameModel: ObservableObject {
+    let cardSuits = ["♠️", "♣️", "♥️", "♦️"]
+    var cardRanks = ["Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Joker"]
+
+    @Published var isShowingRandomCard = false
+    @Published var randomCard: String?
+
+    func getRandomCard() -> String {
+        let suit = cardSuits.randomElement()!
+        let rank = cardRanks.randomElement()!
+        return "\(rank) \(suit)"
+    }
+
+    func showRandomCard() {
+        isShowingRandomCard = true
+        randomCard = getRandomCard()
+    }
+
+    func hideRandomCard() {
+        isShowingRandomCard = false
+        randomCard = nil
+    }
+    
+}
+
+
 class DiceRollGameModel: ObservableObject {
     @Published var dieOne: Int = 0
     @Published var dieTwo: Int = 0
     @Published var isCardSelected: Bool = false
     @Published var selectedRank: String? = nil
     @Published var selectCard: Bool = false
+    @Published var showRandomCard = false
+    @Published var buttonsHighLow = false
     
     private var numCardsDrawn = 0
     
     let cardSuits = ["♠️", "♣️", "♥️", "♦️"]
-    let cardRanks = ["Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Joker"]
+    var cardRanks = ["Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Joker"]
     
     func rollDice() {
         dieOne = Int.random(in: 1...6)
         dieTwo = Int.random(in: 1...54)
     }
     
+
     func getCardRanks() -> [String]? {
-        switch (dieOne + dieTwo) {
-        case 2:
-            return ["2", "Jack"]
-        case 3:
-            return ["3", "Queen"]
-        case 4:
-            return ["4", "King"]
-        case 10:
-            return ["10"]
-        case 11:
-            return ["Joker", "Ace"]
-        case 12:
-            return ["Joker"]
-        default:
-            if let rank = cardRanks.first(where: { $0.prefix(1) == String(dieOne + dieTwo) }) {
-                return [rank]
-            } else {
-                return nil
+        if self.selectCard {
+            return [selectedRank!]
+        } else {
+            switch (dieOne + dieTwo) {
+            case 2:
+                return ["2", "Jack"]
+            case 3:
+                return ["3", "Queen"]
+            case 4:
+                return ["4", "King"]
+            case 10:
+                return ["10"]
+            case 11:
+                return ["Joker", "Ace"]
+            case 12:
+                return ["Joker"]
+            default:
+                if let rank = cardRanks.first(where: { $0.prefix(1) == String(dieOne + dieTwo) }) {
+                    return [rank]
+                } else {
+                    return nil
+                }
             }
         }
     }
+
 }
 
 struct DiceRollGameView: View {
     @ObservedObject var gameModel = DiceRollGameModel()
+    @StateObject var model = CardGameModel()
     var body: some View {
         VStack {
             HStack {
@@ -78,6 +113,7 @@ struct DiceRollGameView: View {
 
                     }
                 }else {
+                    
                     ZStack {
                         RoundedRectangle(cornerRadius: 10)
                             .fill(Color.white)
@@ -87,14 +123,24 @@ struct DiceRollGameView: View {
                     .padding()
                 }
 
-               
-                // My Coloda
-                ZStack {
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(Color.black)
-                        .shadow(radius: 5)
+                
+                
+                if model.isShowingRandomCard   {
+                    //Image("\(gameModel.cardRanks)")
+                    Text(model.randomCard!)
+                                .font(.largeTitle)
+                                .foregroundColor(.black)
+                        } else {
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 10)
+                                    .fill(Color.black)
+                                    .shadow(radius: 5)
+                            }
+                            .frame(width: 77, height: 118)
                 }
-                .frame(width: 77, height: 118)
+               
+                 
+     
             }
             HStack {
                 DieView(value: gameModel.dieOne)
@@ -129,16 +175,35 @@ struct DiceRollGameView: View {
                 Text("You rolled \(gameModel.dieOne + gameModel.dieTwo)")
             }
                
-            Button(action: {
-                self.gameModel.dieOne = Int.random(in: 1...6)
-                self.gameModel.dieTwo = Int.random(in: 1...6)
-            }) {
-                Text("Roll Dice")
-            }.disabled(gameModel.isCardSelected)
+            VStack {
+                Button(action: {
+                    self.gameModel.dieOne = Int.random(in: 1...6)
+                    self.gameModel.dieTwo = Int.random(in: 1...6)
+                    self.gameModel.buttonsHighLow = true
+                }) {
+                    Text("Roll Dice")
+                }
+                .disabled(self.gameModel.isCardSelected)
 
+                Button(action: {
+                    self.model.showRandomCard()
+                    self.gameModel.buttonsHighLow = true
+                }, label: {
+                    Text("High")
+                })
+                .disabled(!self.gameModel.buttonsHighLow || self.gameModel.selectCard)
+
+                Button(action: {
+                    self.model.showRandomCard()
+                    self.gameModel.buttonsHighLow = true
+                }) {
+                    Text("Low")
+                }
+                .disabled(!self.gameModel.buttonsHighLow || self.gameModel.selectCard)
+
+            }.padding(30)
         }
     }
-
     
 }
 
@@ -146,7 +211,7 @@ struct DieView: View {
     let value: Int
     var body: some View {
         Text(String(value))
-            .font(.system(size: 100))
+            .font(.system(size: 40))
             .padding()
     }
 }

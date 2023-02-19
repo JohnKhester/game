@@ -54,7 +54,6 @@ struct CardGameView: View {
                 // Allow throwing the cup only if a bet is placed
                 Button(action: {
                     // Roll the dice to get a card
-                    // ...
                 }) {
                     Text("Throw cup")
                 }

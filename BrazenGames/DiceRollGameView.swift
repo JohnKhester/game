@@ -126,10 +126,23 @@ struct DiceRollGameView: View {
                 
                 
                 if model.isShowingRandomCard   {
-                    //Image("\(gameModel.cardRanks)")
-                    Text(model.randomCard!)
+
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(Color.white)
+                            .shadow(radius: 5)
+                        VStack {
+                            Text(model.randomCard!)
                                 .font(.largeTitle)
-                                .foregroundColor(.black)
+                               // .foregroundColor(suitColor())
+                            Image(systemName: "\(gameModel.cardRanks)")
+                                .font(.largeTitle)
+                               // .foregroundColor(suitColor())
+                        }
+                    }
+                    .aspectRatio(2/3, contentMode: .fit)
+                    .frame(width: 77, height: 118)
+   
                         } else {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 10)
@@ -155,7 +168,6 @@ struct DiceRollGameView: View {
                         ForEach(cardRanks, id: \.self) { rank in
                              
                                 PlayingCardView(rank: rank, suit: gameModel.cardSuits[(gameModel.dieOne + gameModel.dieTwo) % 4])
-                                
                                     .onTapGesture {
                                         if self.gameModel.isCardSelected {
                                             self.gameModel.selectedRank = rank

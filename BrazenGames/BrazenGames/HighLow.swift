@@ -8,6 +8,8 @@
 import SwiftUI
 import AVFoundation
 
+
+
 class Dice: ObservableObject {
     @Published var dieOne: Int = 0
     @Published var dieTwo: Int = 0
@@ -31,8 +33,7 @@ class Dice: ObservableObject {
         } else {
             print("Sound file not found")
         }
-    }
-    
+    }    
 
     func rollDice() {
         dieOne = Int.random(in: 1...6)
@@ -50,6 +51,7 @@ struct HighLow: View {
     var deck = createDeck()
     var body: some View {
         VStack {
+            Text("Balance: \(chipViewModel.balance)")
             Text("Bet: \(chipViewModel.betAmount)")
                         Button(action: {
                             chipViewModel.clearBet()

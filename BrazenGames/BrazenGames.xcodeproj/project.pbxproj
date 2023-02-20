@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1789799A29A3CFAE0082FD84 /* chips.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1789799929A3CFAE0082FD84 /* chips.mp3 */; };
 		EF390F9129986EA9002632F2 /* diceRollSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EF390F9029986EA9002632F2 /* diceRollSound.mp3 */; };
 		EF390F9629987199002632F2 /* Cards.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF390F9529987199002632F2 /* Cards.swift */; };
 		EF390F98299876C0002632F2 /* HighLow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF390F97299876C0002632F2 /* HighLow.swift */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1789799929A3CFAE0082FD84 /* chips.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = chips.mp3; sourceTree = "<group>"; };
 		EF390F9029986EA9002632F2 /* diceRollSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = diceRollSound.mp3; sourceTree = "<group>"; };
 		EF390F9529987199002632F2 /* Cards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cards.swift; sourceTree = "<group>"; };
 		EF390F97299876C0002632F2 /* HighLow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighLow.swift; sourceTree = "<group>"; };
@@ -49,6 +51,7 @@
 		EF390F8F29986E8E002632F2 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
+				1789799929A3CFAE0082FD84 /* chips.mp3 */,
 				EF390F9029986EA9002632F2 /* diceRollSound.mp3 */,
 			);
 			path = Sounds;
@@ -172,6 +175,7 @@
 			files = (
 				EF390F9129986EA9002632F2 /* diceRollSound.mp3 in Resources */,
 				EF7417DA299859470067D085 /* Preview Assets.xcassets in Resources */,
+				1789799A29A3CFAE0082FD84 /* chips.mp3 in Resources */,
 				EF7417D7299859470067D085 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

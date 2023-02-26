@@ -11,7 +11,7 @@ import SwiftUI
 struct BrazenGamesApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            Lobby()
         }
     }
 }

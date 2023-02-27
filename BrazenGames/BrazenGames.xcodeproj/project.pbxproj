@@ -11,6 +11,12 @@
 		1789799C29ABC1A10082FD84 /* TableGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1789799B29ABC1A10082FD84 /* TableGame.swift */; };
 		1789799F29ABC6000082FD84 /* ColorSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1789799E29ABC6000082FD84 /* ColorSettings.swift */; };
 		178979A129ABCF040082FD84 /* Lobby.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178979A029ABCF040082FD84 /* Lobby.swift */; };
+		178979A329ABDE0F0082FD84 /* HiLowGameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178979A229ABDE0F0082FD84 /* HiLowGameScene.swift */; };
+		178979A629AC10A60082FD84 /* LineNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178979A529AC10A60082FD84 /* LineNavBar.swift */; };
+		178979A829AC11CA0082FD84 /* Bet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178979A729AC11CA0082FD84 /* Bet.swift */; };
+		178979AA29AC14EC0082FD84 /* PlayingCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178979A929AC14EC0082FD84 /* PlayingCardView.swift */; };
+		178979AC29AC30370082FD84 /* BackSidePlayingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178979AB29AC30370082FD84 /* BackSidePlayingCard.swift */; };
+		178979AE29AC36FC0082FD84 /* UserPick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178979AD29AC36FC0082FD84 /* UserPick.swift */; };
 		EF390F9129986EA9002632F2 /* diceRollSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EF390F9029986EA9002632F2 /* diceRollSound.mp3 */; };
 		EF390F9629987199002632F2 /* Cards.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF390F9529987199002632F2 /* Cards.swift */; };
 		EF390F98299876C0002632F2 /* HighLow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF390F97299876C0002632F2 /* HighLow.swift */; };
@@ -29,6 +35,12 @@
 		1789799B29ABC1A10082FD84 /* TableGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableGame.swift; sourceTree = "<group>"; };
 		1789799E29ABC6000082FD84 /* ColorSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSettings.swift; sourceTree = "<group>"; };
 		178979A029ABCF040082FD84 /* Lobby.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lobby.swift; sourceTree = "<group>"; };
+		178979A229ABDE0F0082FD84 /* HiLowGameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HiLowGameScene.swift; sourceTree = "<group>"; };
+		178979A529AC10A60082FD84 /* LineNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineNavBar.swift; sourceTree = "<group>"; };
+		178979A729AC11CA0082FD84 /* Bet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bet.swift; sourceTree = "<group>"; };
+		178979A929AC14EC0082FD84 /* PlayingCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayingCardView.swift; sourceTree = "<group>"; };
+		178979AB29AC30370082FD84 /* BackSidePlayingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackSidePlayingCard.swift; sourceTree = "<group>"; };
+		178979AD29AC36FC0082FD84 /* UserPick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPick.swift; sourceTree = "<group>"; };
 		EF390F9029986EA9002632F2 /* diceRollSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = diceRollSound.mp3; sourceTree = "<group>"; };
 		EF390F9529987199002632F2 /* Cards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cards.swift; sourceTree = "<group>"; };
 		EF390F97299876C0002632F2 /* HighLow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighLow.swift; sourceTree = "<group>"; };
@@ -62,6 +74,18 @@
 			path = Extansions;
 			sourceTree = "<group>";
 		};
+		178979A429AC0CD40082FD84 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				178979A929AC14EC0082FD84 /* PlayingCardView.swift */,
+				1789799B29ABC1A10082FD84 /* TableGame.swift */,
+				178979A529AC10A60082FD84 /* LineNavBar.swift */,
+				178979A729AC11CA0082FD84 /* Bet.swift */,
+				178979AD29AC36FC0082FD84 /* UserPick.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		EF390F8F29986E8E002632F2 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
@@ -85,6 +109,7 @@
 			children = (
 				EF390F9C29987B8F002632F2 /* ChipView.swift */,
 				178979A029ABCF040082FD84 /* Lobby.swift */,
+				178979A229ABDE0F0082FD84 /* HiLowGameScene.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -92,7 +117,7 @@
 		EF7417C6299859430067D085 = {
 			isa = PBXGroup;
 			children = (
-				1789799B29ABC1A10082FD84 /* TableGame.swift */,
+				178979AB29AC30370082FD84 /* BackSidePlayingCard.swift */,
 				EF390FA029996091002632F2 /* HiLo.swift */,
 				EF390F9E2999300E002632F2 /* DiceRollGameView.swift */,
 				EF7417D1299859430067D085 /* BrazenGames */,
@@ -111,6 +136,7 @@
 		EF7417D1299859430067D085 /* BrazenGames */ = {
 			isa = PBXGroup;
 			children = (
+				178979A429AC0CD40082FD84 /* Components */,
 				1789799D29ABC5E90082FD84 /* Extansions */,
 				EF390F9229987174002632F2 /* Model */,
 				EF390F9B29987B70002632F2 /* View */,
@@ -207,14 +233,20 @@
 				EF390F9629987199002632F2 /* Cards.swift in Sources */,
 				EF390FA129996091002632F2 /* HiLo.swift in Sources */,
 				1789799C29ABC1A10082FD84 /* TableGame.swift in Sources */,
+				178979AE29AC36FC0082FD84 /* UserPick.swift in Sources */,
 				EF7417D5299859430067D085 /* ContentView.swift in Sources */,
 				1789799F29ABC6000082FD84 /* ColorSettings.swift in Sources */,
 				EF390F9D29987B8F002632F2 /* ChipView.swift in Sources */,
 				EF390F98299876C0002632F2 /* HighLow.swift in Sources */,
 				178979A129ABCF040082FD84 /* Lobby.swift in Sources */,
+				178979AC29AC30370082FD84 /* BackSidePlayingCard.swift in Sources */,
+				178979A629AC10A60082FD84 /* LineNavBar.swift in Sources */,
 				EF390F9A29987A80002632F2 /* Chip.swift in Sources */,
 				EF7417D3299859430067D085 /* BrazenGamesApp.swift in Sources */,
+				178979A329ABDE0F0082FD84 /* HiLowGameScene.swift in Sources */,
 				EF390F9F2999300E002632F2 /* DiceRollGameView.swift in Sources */,
+				178979AA29AC14EC0082FD84 /* PlayingCardView.swift in Sources */,
+				178979A829AC11CA0082FD84 /* Bet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

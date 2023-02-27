@@ -8,13 +8,10 @@
 import Foundation
 import SwiftUI
 
-extension UIColor {
-    convenience init(hex: UInt32) {
-        let red = CGFloat((hex & 0xff0000) >> 16) / 255.0
-        let green = CGFloat((hex & 0xff00) >> 8) / 255.0
-        let blue = CGFloat(hex & 0xff) / 255.0
-        self.init(red: red, green: green, blue: blue, alpha: 1.0)
-    }
+extension Color {
+    static let backgroundColor = Color(red: 29/255, green: 30/255, blue: 34/255)
+    static let startStroke = Color(red: 25/255, green: 25/255, blue: 27/255)
+    static let endStroke = Color(red: 21/255, green: 22/255, blue: 25/255)
 }
  
 

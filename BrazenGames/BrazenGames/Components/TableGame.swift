@@ -21,7 +21,7 @@ struct TableGame: View {
                 .padding(32)
             
             RoundedRectangle(cornerRadius: 69 + 1)
-                .stroke(LinearGradient(gradient: Gradient(colors: [Color(red: 25/255, green: 25/255, blue: 27/255), Color(red: 21/255, green: 22/255, blue: 25/255)]), startPoint: .top, endPoint: .bottom), lineWidth: 18)
+                .stroke(LinearGradient(gradient: Gradient(colors: [Color.startStroke, Color.endStroke]), startPoint: .top, endPoint: .bottom), lineWidth: 18)
                 .shadow(color: Color.black.opacity(0.5), radius: 53, x: 0, y: 2)
                 .background(Color.clear)
                 .frame(height: 440)

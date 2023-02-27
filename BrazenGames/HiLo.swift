@@ -9,56 +9,53 @@ import SwiftUI
 
 
 struct CardGameView: View {
-    @State private var yourBet: Int = 0
-    @State private var myBalance: Int = 1000
-    @State private var isDeckEnabled: Bool = false
-    
     var body: some View {
-        VStack {
-            Text("Your Bet: \(yourBet)")
-            Text("My Balance: \(myBalance)")
-            Spacer()
-            HStack {
-                if isDeckEnabled {
-                    // Show a random card image in the empty card space based on dice roll
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(Color.white)
-                        .frame(width: 77, height: 118)
-                        .shadow(radius: 5)
-                } else {
-                    // Show the deck with an inverted shirt
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(Color.white)
-                        .frame(width: 77, height: 118)
-                        .shadow(radius: 5)
+        NavigationStack {
+            ZStack {
+                Color.backgroundColor                    
+                    .ignoresSafeArea()
+                VStack {
+                    Rectangle()
+                        .fill(Color.black)
+                        .frame(height: 2)
+                        .background(
+                            Rectangle()
+                                .fill(Color.white.opacity(0.01))
+                                .offset(y: -1)
+                                .blur(radius: 1)
+                                .mask(Rectangle())
+                                .frame(height: 1)
+                        )
+                        .background(
+                            Rectangle()
+                                .fill(Color.white.opacity(0.05))
+                                .offset(y: 1)
+                                .blur(radius: 1)
+                                .mask(Rectangle())
+                                .frame(height: 1)
+                        )
+                        
+                    Text("Have the style touching the safe area edge.")
+                        .padding()
+                        
+                    Spacer()
                 }
             }
-             Text("Place your bet")
-                .padding(30)
-            if yourBet == 0 {
-                            Button(action: {
-                                // Bet 10 bucks
-                                yourBet = 10
-                            }) {
-                                Text("Bet 10 bucks")
-                            }
-                            .padding()
-                            Button(action: {
-                                // Bet 20 bucks
-                                yourBet = 20
-                            }) {
-                                Text("Bet 20 bucks")
-                            }
-                            .padding()
-            } else {
-                // Allow throwing the cup only if a bet is placed
-                Button(action: {
-                    // Roll the dice to get a card
-                }) {
-                    Text("Throw cup")
-                }
-                .padding()
-            }
+            .navigationBarBackButtonHidden(true)
+            .navigationBarItems(
+                leading: Button(action: {
+                    // Action to go back
+                }, label: {
+                    Image(systemName: "arrow.left")
+                        .foregroundColor(.white)
+                }),
+                trailing: Button(action: {
+                    // Action for filter button
+                }, label: {
+                    Image(systemName: "slider.horizontal.3")
+                        .foregroundColor(.white)
+                })
+            )
         }
     }
 }

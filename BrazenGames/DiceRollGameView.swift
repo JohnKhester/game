@@ -228,54 +228,6 @@ struct DieView: View {
     }
 }
 
-struct PlayingCardView: View {
-    let rank: String
-    let suit: String
-    var body: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 10)
-                .fill(Color.white)
-                .shadow(radius: 5)
-            
-            VStack {
-                Text(rank)
-                    .font(.largeTitle)
-                    .foregroundColor(suitColor())
-                                    
-                Image(systemName: suitSymbol())
-                    .font(.largeTitle)
-                    .foregroundColor(suitColor())
-            }
-        }
-        .aspectRatio(2/3, contentMode: .fit)
-        .frame(width: 77, height: 118)
-    }
-    
-    func suitColor() -> Color {
-        switch suit {
-        case "♠️", "♣️":
-            return Color.black
-        default:
-            return Color.red
-        }
-    }
-    
-    func suitSymbol() -> String {
-        switch suit {
-        case "♠️":
-            return "suit.spade.fill"
-        case "♣️":
-            return "suit.club.fill"
-        case "♥️":
-            return "suit.heart.fill"
-        case "♦️":
-            return "suit.diamond.fill"
-        default:
-            return ""
-        }
-    }
-}
-
 
 
 struct DiceRollGameView_Previews: PreviewProvider {

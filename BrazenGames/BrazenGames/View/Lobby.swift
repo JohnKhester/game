@@ -9,27 +9,35 @@ import SwiftUI
 
 struct Lobby: View {
     @State private var isShowingNewScreen = false
+    
     var body: some View {
-        ZStack {
-            // Background color
-            Color.black.ignoresSafeArea(.all)
-            
-            Button {
-                self.isShowingNewScreen = true
-            } label: {
-                Text("Press Game")
-                    .font(.headline)
-                    .foregroundColor(.white)
-                    .padding()
-                    .background(Color.red)
-                    .cornerRadius(10)
+        NavigationStack {
+            ZStack {
+                // Background color
+                Color.backgroundColor.ignoresSafeArea(.all)
+
+                Button(action: {
+                    self.isShowingNewScreen = true
+                }, label: {
+                    Text("Press Game")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .padding()
+                        .background(Color.red)
+                        .cornerRadius(10)
+                })
+                .padding()
+                .offset(y: 100)
+                
             }
-            .padding()
-            .offset(y: 100)
-            
+            .navigationDestination(isPresented: $isShowingNewScreen) {
+                HiLowGameScene()
+            }
         }
+
     }
 }
+
 
 struct Lobby_Previews: PreviewProvider {
     static var previews: some View {

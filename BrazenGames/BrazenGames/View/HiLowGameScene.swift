@@ -19,12 +19,11 @@ struct HiLowGameScene: View {
                     ZStack {
                         TableGame()
                         Bet(bet: 900)
-                            .offset(y: -160)
+                            .offset(y: -175)
                         VStack {
                             HStack(spacing: 45) {
                                 PlayingCardView(rank: "3", suit: "♥️")
                                 BackSidePlayingCard()
-                                
                             }
                                                         
                             HStack {
@@ -55,13 +54,28 @@ struct HiLowGameScene: View {
                                  
                             }
                             .frame(width: 291)
+                            Text("Place your bets")
+                                .foregroundColor(.white)
+                                .font(.system(size: 15, weight: .bold))
                         }
                         .offset(y: -26)
+                        
+
                     }
                    
-                    
-                    Text("Have the style touching the safe area edge.")
-                        .padding()
+                    VStack {
+                        UserPick()
+                        BetStatus()
+                        Text("John Doy")
+                            .foregroundColor(.yellow)
+                            .font(.system(size: 14, weight: .medium))
+                        Text("$109,90")
+                            .font(.system(size: 14, weight: .medium))
+                            .foregroundColor(.white)
+                    }
+                    .offset(x: -148, y: -142)
+                   
+                        
                         
                     Spacer()
                 }

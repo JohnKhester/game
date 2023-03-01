@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct Bet: View {
-    var bet: Int = 0
+    @State var bet: Int = 0
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 50)

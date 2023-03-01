@@ -42,13 +42,13 @@ struct ShowCard: View {
                 showHistory = false
             }
             if showHistory {
-                ScrollView(.horizontal) {
+//                ScrollView(.horizontal) {
 //                    HStack {
 //                        ForEach(game.history) { card in
 //                            CartView(card: card, gameModel: game)
 //                        }
 //                    }
-                }
+//                }
             } else {
                 ForEach(game.getLastTwoCards()) { card in
                     CartView(card: card, gameModel: game)

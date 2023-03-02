@@ -74,25 +74,15 @@ struct HighLow: View {
                 Text("Roll Dice")
             }).disabled(chipViewModel.betAmount == 0)
             
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 20) {
-                    ForEach(chipViewModel.chips) { chip in
-                        ChipView(chip: chip)
-                            .overlay(
-                                chip.isSelected ? RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 2) : nil
-                            )
-                            .onTapGesture {
-                                chipViewModel.selectChip(chip)
-                         }
-                    }
-                }
-            }
+            ChipsComponents(chipViewModel: chipViewModel)
             
         }
         .padding()
     }
 }
  
+
+
 struct HighLow_Previews: PreviewProvider {
     static var previews: some View {
         HighLow()

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct Bet: View {
     @State var bet: Int = 0
+    @ObservedObject var chipViewModel = ChipViewModel()
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 50)
@@ -19,7 +20,7 @@ struct Bet: View {
                 Text("Bet:")
                     .foregroundColor(.white)
                 Spacer()
-                Text("$\(bet)")
+                Text("$\(chipViewModel.betAmount)")
                     .foregroundColor(.white)
                     .font(.system(size: 15, weight: .bold))
             }

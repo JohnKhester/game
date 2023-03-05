@@ -17,7 +17,7 @@ struct ChipView: View {
             Text("\(chip.denomination)")
                 .font(.system(size: 22, weight: .bold))
                 .foregroundColor(.white)
-                .offset(y: 0) // adjust the y-offset as needed
+                
         }
     }
 }

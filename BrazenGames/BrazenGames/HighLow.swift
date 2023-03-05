@@ -41,6 +41,7 @@ class Dice: ObservableObject {
         value = dieOne + dieTwo
         audioPlayer?.play()
     }
+    
 }
 
 struct HighLow: View {
@@ -66,6 +67,13 @@ struct HighLow: View {
                     Image(uiImage: gameModel.imageDice[gameModel.dieTwo - 1])
                 }
             }
+            
+            Button(action: {
+                chipViewModel.doubleBet()
+            }, label: {
+                Text("Double")
+            })
+            .disabled(chipViewModel.betAmount == 0)
             
             Button(action: {
                 gameModel.rollDice() // Call rollDice method on gameModel object

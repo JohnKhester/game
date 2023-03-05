@@ -60,17 +60,17 @@ class DiceRollGameModel: ObservableObject {
         } else {
             switch (dieOne + dieTwo) {
             case 2:
-                return ["2", "Jack"]
+                return ["2", "J"]
             case 3:
-                return ["3", "Queen"]
+                return ["3", "Q"]
             case 4:
-                return ["4", "King"]
+                return ["4", "K"]
             case 10:
                 return ["10"]
             case 11:
-                return ["Joker", "Ace"]
+                return ["Jkr", "A"]
             case 12:
-                return ["Joker"]
+                return ["Jkr"]
             default:
                 if let rank = cardRanks.first(where: { $0.prefix(1) == String(dieOne + dieTwo) }) {
                     return [rank]

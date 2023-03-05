@@ -21,9 +21,8 @@ class ChipViewModel: ObservableObject {
     @Published var chips: [Chip] = []
     @Published var selectedChip: Chip?
     @Published var betAmount: Int = 0
-    @Published var balance: Int = 10000 // default balance
+    @Published var balance: Int = 1000 // default balance
     var audioPlayer: AVAudioPlayer?
-
     init() {
         if let soundURL = Bundle.main.url(forResource: "chips", withExtension: "mp3") {
             do {
@@ -48,6 +47,11 @@ class ChipViewModel: ObservableObject {
     
   
     func selectChip(_ chip: Chip) {
+        guard balance >= chip.denomination else {
+            // The bet amount exceeds the current balance, so do nothing
+            return
+        }
+        
         if chip == selectedChip {
             selectedChip = nil
             betAmount -= chip.denomination
@@ -56,10 +60,12 @@ class ChipViewModel: ObservableObject {
             betAmount += chip.denomination
             balance -= chip.denomination // decrease the balance by the chip's denomination
         }
-            
+        
         chips = chips.map { $0.id == chip.id ? Chip(denomination: $0.denomination, image: $0.image, isSelected: true) : Chip(denomination: $0.denomination, image: $0.image, isSelected: false) }
         audioPlayer?.play()
     }
+
+
     
  
     
@@ -70,5 +76,16 @@ class ChipViewModel: ObservableObject {
          selectedChip = nil
          betAmount = 0
      }
- 
+    
+    func doubleBet() -> Bool {
+        let doubledBet = betAmount * 2
+        if doubledBet <= balance {
+            balance -= doubledBet
+            betAmount = doubledBet
+            return true
+        } else {
+            print("Cannot double bet, balance is not enough.")
+            return false
+        }
+    }
 }

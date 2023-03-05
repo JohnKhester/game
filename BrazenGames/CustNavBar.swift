@@ -1,25 +1,23 @@
 //
-//  HiLowGameScene.swift
+//  CustNavBar.swift
 //  BrazenGames
 //
-//  Created by Andrey on 26.02.2023.
+//  Created by Andrey on 05.03.2023.
 //
 
 import SwiftUI
 
-struct HiLowGameScene: View {
+struct CustomNavigationView: View {
     @ObservedObject var chipViewModel = ChipViewModel()
     @ObservedObject var gameModel = Dice()
     @State private var showDice = false
     @State private var isShowingLobby = false
     var body: some View {
-        NavigationStack {
+        NavigationView {
             ZStack {
-                Color.backgroundColor
-                    .ignoresSafeArea()
+                Color.red
                 VStack {
-                    LineNavBar()
-                        .padding(.top, 42)
+                    LineNavBar()                       
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack {
                             ForEach(0..<6) { _ in
@@ -30,7 +28,6 @@ struct HiLowGameScene: View {
                     }
                     .padding(.leading, 24)
                     .padding(.top, 4)
-                    .padding(.bottom, -16)
                     ZStack {
                         TableGame()
                         VStack {
@@ -69,8 +66,11 @@ struct HiLowGameScene: View {
                                     .background(Color.primary)
                                     .opacity(0.12)
                                     .cornerRadius(10)
+                                
                             }
                             .frame(width: 191)
+                            .padding(.bottom, 20)
+                            
                             // Information Place Bets
                             VStack {
                                 Text("Place your bets")
@@ -83,6 +83,7 @@ struct HiLowGameScene: View {
                                     Image(uiImage: gameModel.imageDice[gameModel.dieOne - 1])
                                     Image(uiImage: gameModel.imageDice[gameModel.dieTwo - 1])
                                 }.padding(.bottom, 20)
+
                             }
                         }
                         // User Pick
@@ -98,6 +99,7 @@ struct HiLowGameScene: View {
                         }
                         .offset(x: -148, y: 122)
                     }
+                        .padding(.top, -16)
                     VStack(alignment: .leading, spacing: 12) {
                         Button(action: {
                             gameModel.rollDice() // Call rollDice method on gameModel object
@@ -116,7 +118,7 @@ struct HiLowGameScene: View {
                         .shadow(color: .white.opacity(0.46), radius: 2, x: 0, y: 1)
                         .padding(.horizontal, 24)
                         .disabled(chipViewModel.betAmount == 0)
-                        .padding(.top, -12)
+                        
                         HStack(spacing: 24) {
                             Button(action: {
                                 chipViewModel.clearBet()
@@ -125,64 +127,61 @@ struct HiLowGameScene: View {
                                 Text("Clear")
                                     .frame(maxWidth: .infinity)
                                     .frame(height: 52)
-                                    .background(Color.darkColor)
+                                    .background(
+                                        Color(red: 0.18, green: 0.18, blue: 0.19)
+                                    )
                                     .cornerRadius(16)
                             })
                            
                             Button(action: {
-                                if chipViewModel.doubleBet() {
-                                    print("Ставка была удвоена")
-                                } else {
-                                    print("Ставка не была удвоена")
-                                }
-    
+                                chipViewModel.doubleBet()
+                                showDice = false
                             }, label: {
                                 Text("Double")
                                     .frame(maxWidth: .infinity)
                                     .frame(height: 52)
-                                    .background(Color.darkColor)
+                                    .background(
+                                        Color(red: 0.18, green: 0.18, blue: 0.19)
+                                    )
                                     .cornerRadius(16)
                 
                             })
                             
                             .disabled(chipViewModel.betAmount == 0)
-                            //.disabled(!viewModel.canDoubleBet)
                         }
                         .padding(.leading, 24)
                         .padding(.trailing, 24)
-                        .padding(.bottom, 12)
+                        
                         ChipsComponents(chipViewModel: chipViewModel)
                             .padding(.leading, 24)
                     }
-                    .padding(.bottom, 24)
+                    .padding(.bottom, 1)
                 }
-            }
-            .navigationBarBackButtonHidden(true)
-            .navigationBarItems(
-                leading: Button(action: {
-                    // Action to go back
-                    self.isShowingLobby = true
-                }, label: {
-                    Image(systemName: "arrow.left")
-                        .foregroundColor(.white)
-                }),
-                trailing: Button(action: {
-                    // Action for filter button
-                }, label: {
-                    Image(systemName: "slider.horizontal.3")
-                        .foregroundColor(.white)
-                })
-            )
-            .navigationDestination(isPresented: $isShowingLobby) {
-                Lobby()
+                .padding(.top, 16)
+                .navigationBarItems(
+                    leading: Button(action: {
+                        // Handle left button action
+                    }, label: {
+                        Text("Left")
+                            .foregroundColor(.blue)
+                    }),
+                    trailing: Button(action: {
+                        // Handle right button action
+                    }, label: {
+                        Text("Right")
+                            .foregroundColor(.blue)
+                    })
+                    
+                )
             }
         }
     }
 }
 
 
-struct HiLowGameScene_Previews: PreviewProvider {
+
+struct CustomNavigationView_Previews: PreviewProvider {
     static var previews: some View {
-        HiLowGameScene()
+        CustomNavigationView()
     }
 }

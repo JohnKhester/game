@@ -9,27 +9,29 @@ import SwiftUI
 
 struct CardHistoryView: View {
     var body: some View {
-        ZStack {
-            VStack(alignment: .leading, spacing: 6) {
-                Text("Round")
-                    .foregroundColor(.white)
-                    .font(.system(size: 11, weight: .medium))
-                Text("Round")
-                    .foregroundColor(.white)
-                    .font(.system(size: 14, weight: .bold))
-            }
-            Spacer()
-            HStack(spacing: 24) {
-                PlayingCardView(rank: "3", suit: "♥️")
-                PlayingCardView(rank: "3", suit: "♥️")
+        VStack {
+            ZStack {
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("Round")
+                        .foregroundColor(.white)
+                        .font(.system(size: 11, weight: .medium))
+                    Text("Round")
+                        .foregroundColor(.white)
+                        .font(.system(size: 14, weight: .bold))
+                }
                 
-            }.scaleEffect(0.4)
-            
+                HStack(spacing: 24) {
+                    PlayingCardView(rank: "3", suit: "♥️")
+                    PlayingCardView(rank: "3", suit: "♥️")
+                    
+                }.scaleEffect(0.3)
+                
+            }
+            .frame(width: 156, height: 57)
+             
+            .background(Color.darkColor)
+            .cornerRadius(12)
         }
-        .frame(width: 156, height: 57)
-        .padding(16)
-        .background(Color(red: 0.13, green: 0.14, blue: 0.16, opacity: 1.0))
-        .cornerRadius(12)
     }
 }
 

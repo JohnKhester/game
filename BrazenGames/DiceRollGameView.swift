@@ -8,83 +8,10 @@
 
 import SwiftUI
 
-class CardGameModel: ObservableObject {
-    let cardSuits = ["♠️", "♣️", "♥️", "♦️"]
-    var cardRanks = ["Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Joker"]
 
-    @Published var isShowingRandomCard = false
-    @Published var randomCard: String?
-
-    func getRandomCard() -> String {
-        let suit = cardSuits.randomElement()!
-        let rank = cardRanks.randomElement()!
-        return "\(rank) \(suit)"
-    }
-
-    func showRandomCard() {
-        isShowingRandomCard = true
-        randomCard = getRandomCard()
-    }
-
-    func hideRandomCard() {
-        isShowingRandomCard = false
-        randomCard = nil
-    }
-    
-}
-
-
-class DiceRollGameModel: ObservableObject {
-    @Published var dieOne: Int = 0
-    @Published var dieTwo: Int = 0
-    @Published var isCardSelected: Bool = false
-    @Published var selectedRank: String? = nil
-    @Published var selectCard: Bool = false
-    @Published var showRandomCard = false
-    @Published var buttonsHighLow = false
-    
-    private var numCardsDrawn = 0
-    
-    let cardSuits = ["♠️", "♣️", "♥️", "♦️"]
-    var cardRanks = ["Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Joker"]
-    
-    func rollDice() {
-        dieOne = Int.random(in: 1...6)
-        dieTwo = Int.random(in: 1...54)
-    }
-    
-
-    func getCardRanks() -> [String]? {
-        if self.selectCard {
-            return [selectedRank!]
-        } else {
-            switch (dieOne + dieTwo) {
-            case 2:
-                return ["2", "J"]
-            case 3:
-                return ["3", "Q"]
-            case 4:
-                return ["4", "K"]
-            case 10:
-                return ["10"]
-            case 11:
-                return ["Jkr", "A"]
-            case 12:
-                return ["Jkr"]
-            default:
-                if let rank = cardRanks.first(where: { $0.prefix(1) == String(dieOne + dieTwo) }) {
-                    return [rank]
-                } else {
-                    return nil
-                }
-            }
-        }
-    }
-
-}
 
 struct DiceRollGameView: View {
-    @ObservedObject var gameModel = DiceRollGameModel()
+    @ObservedObject var gameModel = Dice()
     @StateObject var model = CardGameModel()
     var body: some View {
         VStack {
@@ -126,7 +53,6 @@ struct DiceRollGameView: View {
                 
                 
                 if model.isShowingRandomCard   {
-
                     ZStack {
                         RoundedRectangle(cornerRadius: 10)
                             .fill(Color.white)

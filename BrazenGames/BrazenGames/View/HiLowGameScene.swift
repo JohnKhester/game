@@ -7,9 +7,13 @@
 
 import SwiftUI
 
+
+
+
 struct HiLowGameScene: View {
     @ObservedObject var chipViewModel = ChipViewModel()
     @ObservedObject var gameModel = Dice()
+    @ObservedObject var model = CardGameModel()
     @State private var showDice = false
     @State private var isShowingLobby = false
     var body: some View {
@@ -40,14 +44,39 @@ struct HiLowGameScene: View {
                             
                             // Card Game
                             HStack(spacing: 45) {
-                                PlayingCardView(rank: "3", suit: "♥️")
-                                BackSidePlayingCard()
+                                if let cardRanks = gameModel.getCardRanks() {
+                                    if cardRanks.count == 1 {
+                                        // Show the single card rolled
+                                        PlayingCardView(rank: cardRanks[0], suit: gameModel.cardSuits[(gameModel.dieOne + gameModel.dieTwo) % 4])
+                                    } else {
+                                        if let selectedRank = gameModel.selectedRank {
+                                            PlayingCardView(rank: selectedRank, suit: gameModel.cardSuits[(gameModel.dieOne + gameModel.dieTwo) % 4])
+                                        } else {
+                                            EmptyCardFrame()
+                                        }
+                                    }
+                                }else {
+                                    EmptyCardFrame()
+                                }
+                                ZStack {
+                                    BackSidePlayingCard()
+                                    if model.isShowingRandomCard {
+                                        
+                                        RandomPlayingCardView(rank: model.randomCard!, suit: gameModel.cardSuits[(gameModel.dieOne + gameModel.dieTwo) % 4])
+                                                .offset(x: -20)
+                                         
+                                    }
+                
+                                }
+                                
+                                
                             } .padding(.bottom, 8)
                             
                             // Button Hi and Low
                             HStack {
                                 Button(action: {
-                                    //
+                                    self.model.showRandomCard()
+                                    self.gameModel.buttonsHighLow = true
                                 }) {
                                     Text("High")
                                         .foregroundColor(.white)
@@ -55,8 +84,9 @@ struct HiLowGameScene: View {
                                     
                                 }.frame(minWidth: 140, maxWidth: .infinity, minHeight: 50)
                                     .background(Color.primary)
-                                    .opacity(0.12)
+                                    
                                     .cornerRadius(10)
+                                    .disabled(!self.gameModel.buttonsHighLow || self.gameModel.selectCard)
                                 
                                 Button(action: {
                                     //
@@ -77,12 +107,16 @@ struct HiLowGameScene: View {
                                     .foregroundColor(.white)
                                     .font(.system(size: 15, weight: .bold))
                             }
+                            
                             // Dice
-                            if showDice {
-                                HStack {
-                                    Image(uiImage: gameModel.imageDice[gameModel.dieOne - 1])
-                                    Image(uiImage: gameModel.imageDice[gameModel.dieTwo - 1])
-                                }.padding(.bottom, 20)
+                            VStack {
+                                
+                                if showDice {
+                                    HStack {
+                                        Image(uiImage: gameModel.imageDice[gameModel.dieOne - 1])
+                                        Image(uiImage: gameModel.imageDice[gameModel.dieTwo - 1])
+                                    }.padding(.bottom, 20)
+                                }
                             }
                         }
                         // User Pick
@@ -102,6 +136,7 @@ struct HiLowGameScene: View {
                         Button(action: {
                             gameModel.rollDice() // Call rollDice method on gameModel object
                             showDice = true
+                            self.gameModel.buttonsHighLow = true
                         }, label: {
                             Text("Roll Dice")
                                 .font(.system(size: 15))
@@ -128,21 +163,21 @@ struct HiLowGameScene: View {
                                     .background(Color.darkColor)
                                     .cornerRadius(16)
                             })
-                           
+                            
                             Button(action: {
                                 if chipViewModel.doubleBet() {
                                     print("Ставка была удвоена")
                                 } else {
                                     print("Ставка не была удвоена")
                                 }
-    
+                                
                             }, label: {
                                 Text("Double")
                                     .frame(maxWidth: .infinity)
                                     .frame(height: 52)
                                     .background(Color.darkColor)
                                     .cornerRadius(16)
-                
+                                
                             })
                             
                             .disabled(chipViewModel.betAmount == 0)
@@ -178,6 +213,7 @@ struct HiLowGameScene: View {
             }
         }
     }
+    
 }
 
 

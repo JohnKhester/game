@@ -8,42 +8,6 @@
 import SwiftUI
 import AVFoundation
 
-
-
-class Dice: ObservableObject {
-    @Published var dieOne: Int = 0
-    @Published var dieTwo: Int = 0
-    @Published var value = 1
-    var audioPlayer: AVAudioPlayer?
-    let imageDice = [UIImage(named: "Dice One")!,
-                     UIImage(named: "Dice Two")!,
-                     UIImage(named: "Dice Three")!,
-                     UIImage(named: "Dice Four")!,
-                     UIImage(named: "Dice Five")!,
-                     UIImage(named: "Dice Six")!]
-    
-    init() {
-        if let soundURL = Bundle.main.url(forResource: "diceRollSound", withExtension: "mp3") {
-            do {
-                audioPlayer = try AVAudioPlayer(contentsOf: soundURL)
-                audioPlayer?.prepareToPlay()
-            } catch {
-                print("Error loading sound file: \(error)")
-            }
-        } else {
-            print("Sound file not found")
-        }
-    }    
-
-    func rollDice() {
-        dieOne = Int.random(in: 1...6)
-        dieTwo = Int.random(in: 1...6)
-        value = dieOne + dieTwo
-        audioPlayer?.play()
-    }
-    
-}
-
 struct HighLow: View {
     @ObservedObject var chipViewModel = ChipViewModel()
     @ObservedObject var gameModel = Dice()
@@ -69,7 +33,11 @@ struct HighLow: View {
             }
             
             Button(action: {
-                chipViewModel.doubleBet()
+                if chipViewModel.doubleBet() {
+                    //
+                } else {
+                    //
+                }
             }, label: {
                 Text("Double")
             })

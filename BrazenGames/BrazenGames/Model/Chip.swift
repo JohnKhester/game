@@ -65,10 +65,6 @@ class ChipViewModel: ObservableObject {
         audioPlayer?.play()
     }
 
-
-    
- 
-    
     func clearBet() {
          if let chip = selectedChip {
              balance += chip.denomination // increase the balance by the selected chip's denomination
